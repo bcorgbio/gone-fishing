@@ -1,0 +1,40 @@
+---
+title: "Final R Project"
+author: "Gone-Fishing"
+date: "2022-12-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(trackter)
+library(ggplot2)
+library(av)
+library(tidyverse)
+setwd("./video_data/bluegill1")
+```
+#Results
+```{r, echo=FALSE}
+dir.create("images")
+#function to rotate cc
+trans.img <- function(img=NULL,out.dir=NULL){
+  i<- EBImage::readImage(img)
+  it <- EBImage::transpose(i)
+  EBImage::writeImage(it,files = paste0(out.dir,"/",basename(img)))
+}
+
+
+f <- list.files(pattern="avi")
+if(dir.exists("images")) unlink("images",recursive=TRUE)
+  vid.to.images(vid.path = f[1],out.dir = "./images")
+
+  
+  #extract the contour
+kin <- kin.free(image.dir = "./images",save=FALSE,thr=0.5,frames = 1:10,)
+
+
+
+
+
+kin$midline %>% 
+  ggplot(aes(x,y))+geom_point()+facet_wrap(~frame)
+
