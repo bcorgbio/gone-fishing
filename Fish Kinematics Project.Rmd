@@ -3,6 +3,7 @@ title: "Final R Project"
 author: "Gone-Fishing"
 date: "2022-12-07"
 output: html_document
+bibliography: BIOL3140.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +13,10 @@ library(av)
 library(tidyverse)
 setwd("./video_data/bluegill1")
 ```
+#Introduction
+
+#Methods
+
 #Results
 ```{r, echo=FALSE}
 dir.create("images")
@@ -37,4 +42,8 @@ kin <- kin.free(image.dir = "./images",save=FALSE,thr=0.5,frames = 1:10,)
 
 kin$midline %>% 
   ggplot(aes(x,y))+geom_point()+facet_wrap(~frame)
+```
 
+#Dicussion
+
+#Author Contributions
