@@ -16,6 +16,7 @@ setwd("./video_data/bluegill1")
 #Introduction
 
 #Methods
+We observed the swimming pattern of two bluegill sunfish for our experiments. We recorded the swimming of these fish using a contrasted background in order to clearly identify the outline of each fish. These fish each swam in a swim tunnel at a high speed and a slow speed at both a high water temperature (add exact number) and a low water temperature (add exact number). A total of eight experiments were conducted (four for each fish). An R package called trackter was then used for semi automated tracking and analysis of 2D kinematics of the fish. This occurs through the program's ability to detect a region of interest using thresholding and segmentation. Trackter is then able to compute kinematic and shape parameters based on the contour of the region. Trackter then calculated the midline (propulsive) wavelength for the kinematic analysis of the swimming fish. We then used this data to visualize the difference in movement caused by a variance in water temperature by plotting the movement of the pectoral fins of the fish.
 
 #Results
 ```{r, echo=FALSE}
