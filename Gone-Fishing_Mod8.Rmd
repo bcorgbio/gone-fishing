@@ -4,6 +4,11 @@ author: "Gone-Fishing"
 date: "2022-12-11"
 output: html_document
 ---
+##Introduction
+
+#Methods 
+
+##Results
 ```{r setup, include=FALSE}
 library(rgbif)
 library(tidyverse)
@@ -183,12 +188,9 @@ kable_styling(mc.kb)
 best.lmer <-  lmer(j.day~wk.tmin+wk.tmax+wk.wvec+(1|name),mc.arr.weath2,na.action = "na.fail")
 
 Anova(best.lmer)
+```
 
+##Discussion
 
-
-
-
-
-
-
+##References 
 
