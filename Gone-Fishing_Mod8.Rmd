@@ -35,7 +35,7 @@ nighthawk.p <- ggplot(MA, aes(long,lat,group=subregion) )+
 #and add image to the map with cowplot
 nighthawk.p2 <- ggdraw() +
   draw_image("https://cdn.download.ams.birds.cornell.edu/api/v1/asset/303958381/1800",scale = 0.3,halign=0.9,valign=1) +
-  draw_plot(raven.p)
+  draw_plot(nighthawk.p)
 print(nighthawk.p2)
 ```
 ```{r, include=FALSE}
