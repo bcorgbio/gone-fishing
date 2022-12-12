@@ -22,7 +22,10 @@ library(cowplot)#for examples
 library(lme4) #for linear mixed effect models
 library(car) #for LME anova testing
 library(data.table) #for frollmean function (and others)
+library(knitr) 
+library(kableExtra) 
 ```
+
 ```{r, echo=FALSE}
 nighthawk <- occ_data(scientificName = "Chordeiles minor", stateProvince="Massachusetts", limit=200,year=2018)
 
@@ -105,7 +108,7 @@ weather.d <- meteo_pull_monitors(sta.d$id,date_min = "2000-01-01")
 head(weather.d)
 
 mc<- dat%>%
-  filter(species=="Setophaga caerulescens")%>%
+  filter(species=="Chordeiles minor")%>%
   group_by(year)%>%
   mutate(date=as.Date(paste0(year,"-",month,"-",day)),
          j.day=julian(date,origin=as.Date(paste0(unique(year),"-01-01")))
