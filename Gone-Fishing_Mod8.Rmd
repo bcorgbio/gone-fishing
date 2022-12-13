@@ -41,37 +41,41 @@ nighthawk.p2 <- ggdraw() +
   draw_plot(nighthawk.p)
 print(nighthawk.p2)
 ```
-```{r, include=FALSE}
-#species <- c("Chordeiles minor","Piranga olivacea","Setophaga cerulea","Icterus galbula","Vireo olivaceus")
 
-#y <- paste0("1990",",","2019")
-#m <- paste0("3",",","6")
-#dat.l <-list()
+```{r, include=FALSE,cache=TRUE}
+species <- c("Chordeiles minor","Piranga olivacea","Setophaga cerulea","Icterus galbula","Vireo olivaceus")
 
-#for(s in species){
+y <- paste0("1990",",","2019")
+m <- paste0("3",",","6")
+dat.l <-list()
+
+for(s in species){
   
   ## setting the limit=0 returns no records but can give you the number of observations if you access the meta data
-#n.obs <-  occ_data(scientificName = s,year=y,month=m,limit=0,country="US",basisOfRecord = "HUMAN_OBSERVATION",stateProvince="Massachusetts")$meta$count 
+n.obs <-  occ_data(scientificName = s,year=y,month=m,limit=0,country="US",basisOfRecord = "HUMAN_OBSERVATION",stateProvince="Massachusetts")$meta$count 
 
-#print(n.obs)
+print(n.obs)
 
 
-#dat.l[[paste0(s)]] <- occ_data(scientificName = s,year=y,month=m,
-#                               limit=n.obs,country="US",
- #                              basisOfRecord = "HUMAN_OBSERVATION",
-  #                             stateProvince="Massachusetts")[[2]]
+dat.l[[paste0(s)]] <- occ_data(scientificName = s,year=y,month=m,
+                               limit=n.obs,country="US",
+                               basisOfRecord = "HUMAN_OBSERVATION",
+                               stateProvince="Massachusetts")[[2]]
 
 
 }
 
-#dat <- rbindlist(dat.l,fill=T)
+dat <- rbindlist(dat.l,fill=T)
 
-#head(dat)
+head(dat)
 
 #saving data
-#saveRDS(data,"massbird.data.RDS")
+saveRDS(data,"massbird.data.RDS")
+```
 
+```{r, include=FALSE}
 #year by year totals from occ_data()
+dat <- readRDS("massbird.data.RDS")
 dat%>%
   group_by(year,species)%>%
   summarise(count=sum(individualCount,na.rm = T))%>%
