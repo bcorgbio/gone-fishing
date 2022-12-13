@@ -1,7 +1,7 @@
 ---
 title: "Gone-Fishing_Mod8_Project"
 author: "Gone-Fishing"
-date: "2022-12-11"
+date: "2022-12-15"
 output: html_document
 ---
 ##Introduction
@@ -204,7 +204,12 @@ Anova(best.lmer)
 ##Discussion
 
 ##Author Contributions
+Rachel Z: Introduction
+Katherine: Methods
+Rachel R: Results
+Jessica: Discussion
 
 ##References 
+
 
 
