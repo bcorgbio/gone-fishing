@@ -65,10 +65,6 @@ dat.l[[paste0(s)]] <- occ_data(scientificName = s,year=y,month=m,
 
 }
 
-dat <- rbindlist(dat.l,fill=T)
-
-head(dat)
-
 #saving data
 saveRDS(data,"massbird.data.RDS")
 ```
@@ -76,6 +72,9 @@ saveRDS(data,"massbird.data.RDS")
 ```{r, include=FALSE}
 #year by year totals from occ_data()
 dat <- readRDS("massbird.data.RDS")
+dat <- rbindlist(dat.l,fill=T)
+head(dat)
+
 dat%>%
   group_by(year,species)%>%
   summarise(count=sum(individualCount,na.rm = T))%>%
