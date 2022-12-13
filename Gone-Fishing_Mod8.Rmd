@@ -26,7 +26,7 @@ library(knitr)
 library(kableExtra) 
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 nighthawk <- occ_data(scientificName = "Chordeiles minor", stateProvince="Massachusetts", limit=200,year=2018)
 
 #get the state of MA from ggmaps map data
@@ -42,7 +42,7 @@ nighthawk.p2 <- ggdraw() +
 print(nighthawk.p2)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE,echo=FALSE,warning=FALSE}
 species <- c("Chordeiles minor","Piranga olivacea","Setophaga cerulea","Icterus galbula","Vireo olivaceus")
 
 y <- paste0("1990",",","2019")
@@ -66,17 +66,16 @@ dat.l[[paste0(s)]] <- occ_data(scientificName = s,year=y,month=m,
 }
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE,echo=FALSE,warning=FALSE}
 dat <- rbindlist(dat.l,fill=T)
 
 #saving data
 saveRDS(dat,"massbird.data.RDS")
 ```
 
-```{r, include=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 #year by year totals from occ_data()
 dat <- readRDS("massbird.data.RDS")
-head(dat)
 
 dat%>%
   group_by(year,species)%>%
@@ -84,7 +83,7 @@ dat%>%
   ggplot(aes(x=year,y=count,col=species))+geom_point()
 ```
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 options(noaakey = "KFLlRkFhiMsAjFqCwzjckZxHlDZjfFHA")
 sts <- c(
   "GHCND:USW00013894", #Mobible, AL 2k away about 10 days away @200 km/day
@@ -104,19 +103,21 @@ sta.d <- bind_rows( #bind the rows
   mutate(migr.day=c(10,5,0))%>% #so we can look at wind speed 0, 5 or 10 days before arrive in boston
   separate(id,into = c("station.type","id"))%>%#need to cut station type out from station id number
         print()
+```
 
+```{r,echo=FALSE,warning=FALSE}
 plot_usmap(
   include = c(.northeast_region,.south_region,.east_north_central)
 )+geom_point(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name),size=5)+geom_label(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name,label=name),size=5,nudge_x = 1e6*0.25)+theme(legend.position = "none")
 ```
 
-```{r, include=FALSE, cache=TRUE}
+```{r, include=FALSE, cache=TRUE,warning=FALSE}
 weather.d <- meteo_pull_monitors(sta.d$id,date_min = "2000-01-01")
 
 head(weather.d)
 ```
 
-```{r, include=FALSE}
+```{r, echo=FALSE,warning=FALSE}
 mc<- dat%>%
   filter(species=="Chordeiles minor")%>%
   group_by(year)%>%
@@ -205,11 +206,12 @@ Anova(best.lmer)
 
 ##Discussion
 
-##Author Contributions
-Rachel Z: Introduction
-Katherine: Methods
-Rachel R: Results
-Jessica: Discussion
+##Author Contributions 
+<br>
+Rachel Z: Introduction<br>
+Katherine: Methods<br>
+Rachel R: Results<br>
+Jessica: Discussion<br>
 
 ##References 
 
