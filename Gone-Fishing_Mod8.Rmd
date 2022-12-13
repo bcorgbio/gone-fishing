@@ -82,8 +82,8 @@ dat%>%
   ggplot(aes(x=year,y=count,col=species))+geom_point()
 ```
 
-```{r}
-options(noaakey = "token")
+```{r,echo=FALSE}
+options(noaakey = "KFLlRkFhiMsAjFqCwzjckZxHlDZjfFHA")
 sts <- c(
   "GHCND:USW00013894", #Mobible, AL 2k away about 10 days away @200 km/day
   "GHCND:USW00013881", #Charlotte, NC 1000 km away about 6 days away @200 km/day
@@ -106,11 +106,15 @@ sta.d <- bind_rows( #bind the rows
 plot_usmap(
   include = c(.northeast_region,.south_region,.east_north_central)
 )+geom_point(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name),size=5)+geom_label(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name,label=name),size=5,nudge_x = 1e6*0.25)+theme(legend.position = "none")
+```
 
+```{r, include=FALSE, cache=TRUE}
 weather.d <- meteo_pull_monitors(sta.d$id,date_min = "2000-01-01")
 
 head(weather.d)
+```
 
+```{r, include=FALSE}
 mc<- dat%>%
   filter(species=="Chordeiles minor")%>%
   group_by(year)%>%
@@ -199,5 +203,8 @@ Anova(best.lmer)
 
 ##Discussion
 
+##Author Contributions
+
 ##References 
+
 
