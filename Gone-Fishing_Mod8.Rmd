@@ -42,7 +42,7 @@ nighthawk.p2 <- ggdraw() +
 print(nighthawk.p2)
 ```
 
-```{r, include=FALSE,cache=TRUE}
+```{r, eval=FALSE}
 species <- c("Chordeiles minor","Piranga olivacea","Setophaga cerulea","Icterus galbula","Vireo olivaceus")
 
 y <- paste0("1990",",","2019")
@@ -64,15 +64,18 @@ dat.l[[paste0(s)]] <- occ_data(scientificName = s,year=y,month=m,
 
 
 }
+```
+
+```{r, eval=FALSE}
+dat <- rbindlist(dat.l,fill=T)
 
 #saving data
-saveRDS(data,"massbird.data.RDS")
+saveRDS(dat,"massbird.data.RDS")
 ```
 
 ```{r, include=FALSE}
 #year by year totals from occ_data()
 dat <- readRDS("massbird.data.RDS")
-dat <- rbindlist(dat.l,fill=T)
 head(dat)
 
 dat%>%
