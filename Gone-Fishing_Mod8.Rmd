@@ -4,11 +4,11 @@ author: "Gone-Fishing"
 date: "2022-12-15"
 output: html_document
 ---
-##Introduction
+## Introduction
 
-#Methods 
+## Methods 
 
-##Results
+## Results
 ```{r setup, include=FALSE}
 library(rgbif)
 library(tidyverse)
@@ -204,9 +204,9 @@ best.lmer <-  lmer(j.day~wk.tmin+wk.tmax+wk.wvec+(1|name),mc.arr.weath2,na.actio
 Anova(best.lmer)
 ```
 
-##Discussion
+## Discussion
 
-##Author Contributions 
+## Author Contributions 
 <br>
 Rachel Z: Introduction<br>
 Katherine: Methods<br>
