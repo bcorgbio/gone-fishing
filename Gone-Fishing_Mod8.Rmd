@@ -1,5 +1,5 @@
 ---
-title: "Gone-Fishing_Mod8_Project"
+title: "Effects of Temperature and Wind on Arrival Time of Trans-Gulf Migrants"
 author: "Gone-Fishing"
 date: "2022-12-15"
 output: html_document
@@ -8,7 +8,7 @@ bibliography: "biol3140.bib"
 ## Introduction
 The term trans-Gulf migrants or TGMs, refer to species of birds that fly non-stop over the Gulf of Mexico and arrive on land between Texas and Florida. They are part of a larger group of birds that undertake long-distance migrations from Central and South America to more temperate latitudes. 
 
-The time of arrival of these TGMs have quite a large effect on their rates of survival. One example of this is the red knot, or Calidris canutus rufa. In the spring, this species of bird travels from Tierra del Fuego to the Delaware Bay (a 30,000 km trip), and usually bulks up on horseshoe crab eggs in Delaware Bay before leaving to breed in Arctic polar deserts. From 1997-2002, a higher proportion of knots did not reach threshold departure masses, and the population size dropped from 51,000 to 37,000. This drop in population is assumed to be a result of birds arriving later in Delaware, after the horseshoe crab eggs had already been depleted.(@baker2004rapid)
+The time of arrival of these TGMs have quite a large effect on their rates of survival. One example of this is the red knot, or *Calidris canutus rufa*. In the spring, this species of bird travels from Tierra del Fuego to the Delaware Bay (a 30,000 km trip), and usually bulks up on horseshoe crab eggs in Delaware Bay before leaving to breed in Arctic polar deserts. From 1997-2002, a higher proportion of knots did not reach threshold departure masses, and the population size dropped from 51,000 to 37,000. This drop in population is assumed to be a result of birds arriving later in Delaware, after the horseshoe crab eggs had already been depleted. (@baker2004rapid)
 
 Other research has also shown that survival rates are reduced by cold weather and high density, (@cook2021temperature) and as climate change continues to cause abnormal temperature and weather fluctuation, TGM survival rate also fluctuates. 
 
@@ -38,7 +38,7 @@ library(knitr)
 library(kableExtra) 
 ```
 
-```{r map of MA and nighthawk, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "**Fig. 1.** Occurence of *Chordeiles minor* in Massachusetts from 2018. Data from eBird counts."}
 nighthawk <- occ_data(scientificName = "Chordeiles minor", stateProvince="Massachusetts", limit=200,year=2018)
 
 #get the state of MA from ggmaps map data
@@ -85,7 +85,7 @@ dat <- rbindlist(dat.l,fill=T)
 saveRDS(dat,"massbird.data.RDS")
 ```
 
-```{r species count vs year,echo=FALSE,warning=FALSE,message=FALSE} 
+```{r species count vs year,echo=FALSE,warning=FALSE,message=FALSE, fig.cap= "**Fig. 2.** Occurence of five TGM species in Massachusetts from 1990 to 2019."} 
 #year by year totals from occ_data()
 dat <- readRDS("massbird.data.RDS")
 
@@ -117,7 +117,7 @@ sta.d <- bind_rows( #bind the rows
         print()
 ```
 
-```{r,echo=FALSE,warning=FALSE,message=FALSE}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,fig.cap= "**Fig. 3.** Map of flight path of TGMs from first landing in the US in Mobile, AL to final destination in Boston, MA."}
 plot_usmap(
   include = c(.northeast_region,.south_region,.east_north_central)
 )+geom_point(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name),size=5)+geom_label(data=sta.d,aes(x=longitude.1,y=latitude.1,col=name,label=name),size=5,nudge_x = 1e6*0.25)+theme(legend.position = "none")
@@ -143,7 +143,7 @@ mc<- dat%>%
   filter(year>1999)
 ```
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 mc%>%
   ggplot(aes(j.day,prop))+geom_point()+facet_wrap(year~.)
 ```
@@ -158,7 +158,7 @@ mc.pred <- mc%>%
   left_join(mc%>%dplyr::select(j.day,date)) ## add date back to tibble
 ```
 
-```{r, echo=FALSE,warning=FALSE}
+```{r, echo=FALSE,warning=FALSE, fig.cap="**Fig. 4.** Proportion of the population of *Chordeiles minor* that has arrived in Boston, MA by the given Julian day. Logistic models plotted in blue to estimate the arrival date."}
 mc%>%
   ggplot(aes(j.day,prop))+geom_point(aes=0.3)+geom_line(data=mc.pred,aes(x=j.day,y=pred),col="blue",size=2)+facet_wrap(year~.)
 ```
@@ -169,7 +169,7 @@ mc.arrive.date <-mc.pred%>%
   filter(j.day==j.day[which.min(abs(pred-0.25))])
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,fig.cap="**Fig. 5.** Julian day from each year corresponding to the arrival of 25% of the *Chordeiles minor* population to Boston, MA."}
 mc.arrive.date%>%
   ggplot(aes(year,j.day))+geom_point()
 ```
@@ -219,7 +219,7 @@ Anova(mc.lmer2)
 
 mc.arr.aic <- dredge(mc.lmer2,fixed = c("wk.tmin","wk.tmax","wk.wvec"),)
 
-mc.kb <- kable(mc.arr.aic[1:4,],caption = "Fit values for nested models of the most complicated lme model")
+mc.kb <- kable(mc.arr.aic[1:4,],caption = "**Table 1.** Fit values for nested models of the most complicated linear mixed-effect model.")
 ```
 
 ```{r table, echo=FALSE}
@@ -235,7 +235,6 @@ Anova(best.lmer)
 ## Discussion
 
 ## Author Contributions 
-<br>
 Rachel Z: Introduction<br>
 Katherine: Methods<br>
 Rachel R: Results<br>
