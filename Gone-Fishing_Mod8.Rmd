@@ -94,6 +94,7 @@ dat%>%
   summarise(count=sum(individualCount,na.rm = T))%>%
   ggplot(aes(x=year,y=count,col=species))+geom_point()
 ```
+From 1990 to 2019, sightings of all five species of TGMs were observed more frequently. *Icterus galbula*, *Vireo olivaceus*, and *Piranga olivacea* counts in particular increased in the last decade.
 
 ```{r,include=FALSE}
 options(noaakey = "KFLlRkFhiMsAjFqCwzjckZxHlDZjfFHA")
@@ -162,6 +163,7 @@ mc.pred <- mc%>%
 mc%>%
   ggplot(aes(j.day,prop))+geom_point(aes=0.3)+geom_line(data=mc.pred,aes(x=j.day,y=pred),col="blue",size=2)+facet_wrap(year~.)
 ```
+The arrival data for *Chordeiles minor* is between 130 and 150 Julian days. This date can be closely predicated with a logistical model curve. 
 
 ```{r, include=FALSE}
 mc.arrive.date <-mc.pred%>%
@@ -173,6 +175,7 @@ mc.arrive.date <-mc.pred%>%
 mc.arrive.date%>%
   ggplot(aes(year,j.day))+geom_point()
 ```
+When 25% of the TGM species has arrived in Boston, MA, the species can be said to have arrived to its spring range. The arrival dates for *Chordeiles minor* are scattered from 130 to 150, but show a slight downward trend toward a lower Julian date.
 
 ```{r, include=FALSE}
 weather.d <- weather.d%>%
@@ -225,6 +228,7 @@ mc.kb <- kable(mc.arr.aic[1:4,],caption = "**Table 1.** Fit values for nested mo
 ```{r table, echo=FALSE}
 kable_styling(mc.kb)
 ```
+The first model shown in the table including minimum temperature, maximum temperature, and wind vector fits this data set best. 
 
 ```{r, include=FALSE}
 best.lmer <-  lmer(j.day~wk.tmin+wk.tmax+wk.wvec+(1|name),mc.arr.weath2,na.action = "na.fail")
