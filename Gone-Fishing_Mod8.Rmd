@@ -5,6 +5,22 @@ date: "2022-12-15"
 output: html_document
 bibliography: "biol3140.bib"
 ---
+
+<!-- for comments -->
+<style>
+div.comment pre { background-color:#ffbbbb; }
+div.comment pre.r { background-color:#ffbbbb; }
+div.comment {color: red;}
+</style>
+
+
+<div class="comment">
+
+```{r,include=FALSE}
+grade <- 150
+```
+
+</div>
 # Introduction
 The term trans-Gulf migrants or TGMs, refer to species of birds that fly non-stop over the Gulf of Mexico and arrive on land between Texas and Florida. They are part of a larger group of birds that undertake long-distance migrations from Central and South America to more temperate latitudes. 
 
@@ -751,6 +767,50 @@ best.lmer <-  lmer(j.day~wk.tmin+wk.tmax+wk.wvec+(1|name),mc.arr.weath2,na.actio
 
 Anova(best.lmer)
 ```
+
+
+<div class="comment">
+This all could have been done in much less code to answer the question. Repeating an analysis for each species misses the point of evaluating the over all pattern.
+
+```{r}
+all.dat<- dat%>%
+  group_by(species,year)%>%
+  mutate(date=as.Date(paste0(year,"-",month,"-",day)),
+         j.day=julian(date,origin=as.Date(paste0(unique(year),"-01-01")))
+  )%>%
+  group_by(species,year,j.day,date)%>%
+  summarise(day.tot=sum(individualCount,na.rm=T))%>%
+  group_by(species,year)%>%
+  mutate(prop=cumsum(day.tot/sum(day.tot,na.rm = T)))%>%
+  filter(year>1999)
+
+all.pred <- all.dat%>%
+  group_by(species,year)%>%
+  summarize(
+    pred=predict(nls(prop~SSlogis(j.day,Asym, xmid, scal)),newdata=data.frame(j.day=min(j.day):max(j.day))),
+    j.day=min(j.day):max(j.day),
+  )%>%
+  left_join(mc%>%dplyr::select(species,j.day,date))
+
+all.arrive.date <-all.pred%>%
+  group_by(species,year)%>%
+  filter(j.day==j.day[which.min(abs(pred-0.25))])
+
+all.arr.weath2 <- all.arrive.date%>%
+  left_join(weather.wk)
+
+all.lmer <- lmer(j.day~wk.tmin*wk.tmax*wk.wvec+(1|name),all.arr.weath2,na.action = "na.fail")
+
+all.arr.aic <- dredge(all.lmer,fixed = c("wk.tmin","wk.tmax","wk.wvec"),)
+
+best.lmer <-  lmer(j.day~wk.tmin+wk.tmax+wk.wvec+(1|name),all.arr.weath2,na.action = "na.fail")
+
+anova(best.lmer)
+
+grade <- grade-10
+```
+
+</div>
 # Discussion
 Through utilizing meteorological and eBird data, the effect of temporal conditions on TGM arrival in Massachusetts were explained upon conducting various linear mixed-effect modeling. In terms of how arrival time varies according to temperature and wind variables, majority of the 5 species analyzed show a general trend of earlier arrival dates since 2000. One notable exception is *Setophaga cerulea*, where a positive correlation can be observed on the year vs. Julian day graph. 
 
@@ -766,4 +826,12 @@ Katherine: Methods<br>
 Rachel R: Results<br>
 Jessica: Discussion<br>
 
+
+<div class="comment">
+Well done! Great discussion and refs. My only critique . . it could have been a little more concise.
+```{r}
+print(grade)
+```
+
+</div>
 ## References 
